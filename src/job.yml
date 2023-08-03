@@ -13,3 +13,23 @@ environment: azureml:AzureML-sklearn-0.24-ubuntu18.04-py37-cpu@latest
 compute: 
 experiment_name: 
 description: 
+
+$schema: https://azuremlschemas.azureedge.net/latest/commandJob.schema.json
+code: model
+command: >-
+  python train.py
+  --training_data {inputs.training_data}
+  --reg_rate {inputs.reg_rate}
+inputs:
+  training_data: 
+    data:
+      name: diabetes-dev-folder
+      path: ../../experimentation/data  
+      version: 1  # add the version if necessary
+    mode: mount
+    type: directory
+  reg_rate: 0.01
+environment: azureml:AzureML-sklearn-0.24-ubuntu18.04-py37-cpu@latest
+compute: azureml:mlops  # replace with your compute instance name
+experiment_name: mlops-challenge  # replace with your experiment name
+description: mlops-challenge  # replace with your job description
